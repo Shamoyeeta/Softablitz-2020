@@ -33,6 +33,15 @@ class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    void addItem(String pname, String category, String ID, double price, double quantity, double threshold) {
+        Product product=new Product(pname,category,ID,price,quantity,threshold);
+        updateLog(ID,"Added new product");
+    }
+
+    void updateLog(String productID, String change)  {
+        //insert into log values username,product Id, change
+    }
 }
 
 
