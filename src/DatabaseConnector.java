@@ -4,16 +4,23 @@ import java.sql.SQLException;
 
 class DatabaseConnector {
     public Connection connection;
+    final static String user="root" ;
+    final static String pswd="RwitiSaha@258";
 
-    public void startConnection(String user,String password) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        String url = "jdbc:mysql://localhost:3306/FOODPILE";
-        Connection connection = DriverManager.getConnection(url, "root", "RwitiSaha@258");
+
+    public DatabaseConnector() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/FOODPILE";
+            Connection connection = DriverManager.getConnection(url, user, pswd);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public static void main(String[] args) {
-
-    }
 }
 
 
