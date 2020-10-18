@@ -1,18 +1,30 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 class DatabaseConnector {
-    public Connection connection;
-    final static String user="root" ;
-    final static String pswd="RwitiSaha@258";
+    Connection connection=null;
+    private final static String user=getUser() ;
+    private final static String pswd=getPswd();
 
+    static String getUser() {
+        System.out.println("Enter user name of database: ");
+        Scanner sc = new Scanner(System.in);
+        return sc.next();
+    }
+
+    static String getPswd() {
+        System.out.println("Enter password of database: ");
+        Scanner sc = new Scanner(System.in);
+        return sc.next();
+    }
 
     public DatabaseConnector() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/FOODPILE";
-            Connection connection = DriverManager.getConnection(url, user, pswd);
+            connection = DriverManager.getConnection(url, user, pswd);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -22,30 +34,3 @@ class DatabaseConnector {
     }
 
 }
-
-
-
-
-    //public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        System.out.println("Enter Name:");
-//        String name = br.readLine();
-
-
-
-//        String query2 = "SELECT * FROM STUDENT where name = ?;";
-//        PreparedStatement preStat = connection.prepareStatement(query2);
-//        preStat.setString(1, name);
-//        ResultSet result = preStat.executeQuery();
-
-//        while(result.next()) {
-//            int regno = result.getInt("Roll_No");
-//            String Resultname = result.getString("Name");
-//            String branch = result.getString("Branch");
-//            System.out.println("Name - " + Resultname);
-//            System.out.println("Branch - " + branch);
-//            System.out.println("Registration number - " + regno);
-     //   }
-    //}
-//}
