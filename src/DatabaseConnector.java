@@ -7,6 +7,14 @@ class DatabaseConnector {
     Connection connection=null;
     private final static String user=getUser() ;
     private final static String pswd=getPswd();
+  //  private static String username;
+  //  private static String pass;
+
+//    static {
+//        DatabaseCredentials form = new DatabaseCredentials();
+//        username=form.getUsername();
+//        pass=form.getPass();
+//    }
 
     static String getUser() {
         System.out.println("Enter user name of database: ");
