@@ -90,6 +90,19 @@ class Product {
 
 class SearchProducts{
 
+    List<Product> searchAll() throws SQLException, ClassNotFoundException {
+        DatabaseConnector connector = new DatabaseConnector();
+        String query = "SELECT * from product;";
+        PreparedStatement statement = connector.connection.prepareStatement(query);
+        ResultSet result = statement.executeQuery();
+        List<Product> products = new ArrayList<Product>();
+        while (result.next()) {
+            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+        }
+        connector.connection.close();
+        return products;
+    }
+
     List<Product> searchByName(String pname) throws SQLException, ClassNotFoundException {
         DatabaseConnector connector = new DatabaseConnector();
         String query = "SELECT * from product where name = ?;";
@@ -98,7 +111,7 @@ class SearchProducts{
         ResultSet result = statement.executeQuery();
         List<Product> products = new ArrayList<Product>();
         while (result.next()) {
-            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold")));
+            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
         }
         connector.connection.close();
         return products;
@@ -112,7 +125,7 @@ class SearchProducts{
         ResultSet result = statement.executeQuery();
         List<Product> products = new ArrayList<Product>();
         while (result.next()) {
-            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold")));
+            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
         }
         connector.connection.close();
         return products;
@@ -126,7 +139,7 @@ class SearchProducts{
         ResultSet result = statement.executeQuery();
         Product product=null;
         while (result.next()) {
-            product= new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold"));
+            product= new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value"));
         }
         connector.connection.close();
         return product;
