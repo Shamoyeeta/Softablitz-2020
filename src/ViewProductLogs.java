@@ -1,12 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ProductLogs {
+public class ViewProductLogs {
     private JTable table1;
     private JButton logOutButton;
     private JPanel panel2;
@@ -21,9 +19,10 @@ public class ProductLogs {
     private JTextField thresholdTextField;
     private JLabel usernameLabel;
     private JButton goBackButton;
+    private JScrollPane scroll;
     String[] columns={"User","Changes"};
 
-    public ProductLogs() {
+    public ViewProductLogs() {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +57,7 @@ public class ProductLogs {
         table1.setModel(model);
         //table1.getAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table1.setFillsViewportHeight(true);
-        JScrollPane scroll = new JScrollPane(table1);
+        scroll = new JScrollPane(table1);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);//JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setBorder(new EmptyBorder(20,20,20,20));
@@ -66,9 +65,11 @@ public class ProductLogs {
 
     }
 
+
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("ProductLogs");
-        frame.setContentPane(new ProductLogs().main);
+        frame.setContentPane(new ViewProductLogs().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
