@@ -2,10 +2,10 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+        DatabaseCredentials.datebaseCredentialForm();
         DatabaseConnector connector=new DatabaseConnector();
         connector.connection.close();
-
-
         User user;
         user= new Login().checkLogin("Kiwi","123456");
         //user= new Signup().createNewUser("qwerty","Keyboard","qwerty@gmail.com","123456");
