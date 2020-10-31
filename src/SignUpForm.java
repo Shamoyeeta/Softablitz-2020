@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class SignUpForm {
     private JPanel Main;
@@ -22,7 +23,7 @@ public class SignUpForm {
     private JPanel panel3;
     private JPanel panel4;
 
-    public static void signUp(String[] args) {
+    public static void signUp() {
         JFrame frame = new JFrame("Sign Up Form");
         frame.setContentPane(new SignUpForm().Main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,6 +43,11 @@ public class SignUpForm {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    Dashboard.dashboard();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
             }
         });
@@ -50,7 +56,7 @@ public class SignUpForm {
         logInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+               LoginForm.LogIn();
             }
         });
     }

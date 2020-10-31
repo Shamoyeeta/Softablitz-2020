@@ -37,6 +37,7 @@ public class Dashboard {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
             }
         });
         logOutButton.addActionListener(new ActionListener() {
@@ -79,7 +80,7 @@ public class Dashboard {
 
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void dashboard() throws SQLException {
         DatabaseConnector connector = new DatabaseConnector();
         connector.connection.close();
         JFrame frame = new JFrame("Dashboard");

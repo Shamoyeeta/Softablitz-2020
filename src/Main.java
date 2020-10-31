@@ -2,7 +2,7 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
+        SignUpForm.signUp();
         DatabaseCredentials.datebaseCredentialForm();
         DatabaseConnector connector=new DatabaseConnector();
         connector.connection.close();
