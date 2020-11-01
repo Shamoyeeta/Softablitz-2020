@@ -18,9 +18,16 @@ public class Dashboard {
     private JButton myProfileButton;
     private JButton addNewProductButton;
     private JButton searchProductButton;
+    private JLabel welcomeLabel;
+    private static JFrame frame;
     String[] columns= {"Product ID","Product Name","Category","Price"};
+    private User currentUser;
 
-    public Dashboard() {
+    public Dashboard(User currentUser) {
+
+        this.currentUser=currentUser;
+        welcomeLabel.setText("Welcome, "+currentUser.getUsername());
+
         table1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -28,7 +35,9 @@ public class Dashboard {
                     JTable target = (JTable) e.getSource();
                     int row = target.getSelectedRow();
                     String ID = (String) table1.getValueAt(row, 0);
-                    System.out.println(ID);
+                    Product product=new SearchProducts().searchByID(ID);
+                    System.out.println(product.getName());
+                    ViewProductLogs.viewProductDetails(product,currentUser);
                 }
             }
         });
@@ -36,26 +45,29 @@ public class Dashboard {
         myProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
+                frame.dispose();
+                MyProfile.viewMyProfile(currentUser);
             }
         });
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frame.dispose();
+                LoginForm.LogIn();
             }
         });
+
         searchProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO: create UI for search and implement
             }
         });
         addNewProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frame.dispose();
+                ProductDetails.addProductForm(currentUser);
             }
         });
     }
@@ -76,32 +88,29 @@ public class Dashboard {
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);//JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setBorder(new EmptyBorder(20,20,20,20));
-        fillTable(model);
+        fillTable(model,new SearchProducts().searchAll());
 
     }
 
-    public static void dashboard() throws SQLException {
+    public static void dashboard(User user) {
         DatabaseConnector connector = new DatabaseConnector();
-        connector.connection.close();
-        JFrame frame = new JFrame("Dashboard");
-        frame.setContentPane(new Dashboard().main);
+        try {
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        frame = new JFrame("Dashboard");
+        frame.setContentPane(new Dashboard(user).main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-    private void fillTable(DefaultTableModel model) {
+    private void fillTable(DefaultTableModel model,List<Product> products) {
 
-        try {
-            List<Product> products = new SearchProducts().searchAll();
-            for (Product product : products) {
-                model.addRow(new Object[]{product.getID(),product.getName(),product.getCategory(),product.getPrice()});
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        //List<Product> products = new SearchProducts().searchAll();
+        for (Product product : products) {
+            model.addRow(new Object[]{product.getID(),product.getName(),product.getCategory(),product.getPrice()});
         }
 
 

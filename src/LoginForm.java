@@ -17,9 +17,10 @@ public class LoginForm {
     private JLabel title;
     private JButton signup;
     private JPanel panel4;
+    private static JFrame frame;
 
     public static void LogIn() {
-        JFrame frame = new JFrame("LoginForm");
+        frame = new JFrame("LoginForm");
         frame.setContentPane(new LoginForm().Main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -30,22 +31,27 @@ public class LoginForm {
         clear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                usernameField.setText("");
+                passwordField.setText("");
             }
         });
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Dashboard.dashboard();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                User currentuser= new Login().checkLogin(usernameField.getText(), new String(passwordField.getPassword()));
+                if (currentuser==null){
+                    JOptionPane.showMessageDialog(new JFrame(),"No such User exists. Please check your credentials or try Signing up instead","Log In Error",JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    frame.dispose();
+                    Dashboard.dashboard(currentuser);
                 }
             }
         });
         signup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.dispose();
                 SignUpForm.signUp();
             }
         });

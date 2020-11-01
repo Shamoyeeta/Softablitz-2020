@@ -23,11 +23,15 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="bc2d41e9-79ae-47f6-bce1-8a6c8daf2e9f">
+        <schema name="foodpile" object-types="index, view, function, dataset trigger, table, procedure, column, constraint" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="bc2d41e9-79ae-47f6-bce1-8a6c8daf2e9f">
-      <console name="Connection" type="STANDARD" schema="foodpile" session="Main" />
+      <console name="Connection" type="STANDARD" schema="foodpile" session="Main"><![CDATA[SELECT * from product_log where `product_ID`='CAF';]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

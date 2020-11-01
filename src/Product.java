@@ -75,73 +75,138 @@ class Product {
     }
 
 
-    void updateLog(String username, String change) throws SQLException, ClassNotFoundException {
+    void updateLog(String username, String change) {
         DatabaseConnector connector=new DatabaseConnector();
         String sql= "INSERT into product_log(product_ID,username,changes) values(?,?,?);";
-        PreparedStatement statement=connector.connection.prepareStatement(sql);
-        statement.setString(1,this.ID);
-        statement.setString(2,username);
-        statement.setString(3,change);
-        statement.execute();
-        connector.connection.close();
+        PreparedStatement statement= null;
+        try {
+            statement = connector.connection.prepareStatement(sql);
+            statement.setString(1,this.ID);
+            statement.setString(2,username);
+            statement.setString(3,change);
+            statement.execute();
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
 }
 
 class SearchProducts{
 
-    List<Product> searchAll() throws SQLException, ClassNotFoundException {
+    List<Product> searchAll()  {
+        List<Product> products=new ArrayList<Product>();
         DatabaseConnector connector = new DatabaseConnector();
         String query = "SELECT * from product;";
-        PreparedStatement statement = connector.connection.prepareStatement(query);
-        ResultSet result = statement.executeQuery();
-        List<Product> products = new ArrayList<Product>();
-        while (result.next()) {
-            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+        try {
+            PreparedStatement statement = connector.connection.prepareStatement(query);
+            ResultSet result = null;
+            result = statement.executeQuery();
+            //products = new ArrayList<Product>();
+            while (result.next()) {
+                products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+            }
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        connector.connection.close();
         return products;
     }
 
-    List<Product> searchByName(String pname) throws SQLException, ClassNotFoundException {
+    List<Product> searchByName(String pname) {
+        List<Product> products=new ArrayList<Product>();
         DatabaseConnector connector = new DatabaseConnector();
         String query = "SELECT * from product where name = ?;";
-        PreparedStatement statement = connector.connection.prepareStatement(query);
-        statement.setString(1, pname);
-        ResultSet result = statement.executeQuery();
-        List<Product> products = new ArrayList<Product>();
-        while (result.next()) {
-            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+        try {
+            PreparedStatement statement = connector.connection.prepareStatement(query);
+            statement.setString(1, pname);
+            ResultSet result = null;
+            result = statement.executeQuery();
+            //products = new ArrayList<Product>();
+            while (result.next()) {
+                products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+            }
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        connector.connection.close();
         return products;
+
+//        DatabaseConnector connector = new DatabaseConnector();
+//        String query = "SELECT * from product where name = ?;";
+//        PreparedStatement statement = connector.connection.prepareStatement(query);
+//        statement.setString(1, pname);
+//        ResultSet result = statement.executeQuery();
+//        List<Product> products = new ArrayList<Product>();
+//        while (result.next()) {
+//            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+//        }
+//        connector.connection.close();
+//        return products;
     }
 
-    List<Product> searchByCategory(String category) throws SQLException, ClassNotFoundException {
+    List<Product> searchByCategory(String category) {
+        List<Product> products=new ArrayList<Product>();
         DatabaseConnector connector = new DatabaseConnector();
         String query = "SELECT * from product where category = ?;";
-        PreparedStatement statement = connector.connection.prepareStatement(query);
-        statement.setString(1, category);
-        ResultSet result = statement.executeQuery();
-        List<Product> products = new ArrayList<Product>();
-        while (result.next()) {
-            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+        try {
+            PreparedStatement statement = connector.connection.prepareStatement(query);
+            statement.setString(1, category);
+            ResultSet result = null;
+            result = statement.executeQuery();
+            //products = new ArrayList<Product>();
+            while (result.next()) {
+                products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+            }
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        connector.connection.close();
         return products;
+
+//        DatabaseConnector connector = new DatabaseConnector();
+//        String query = "SELECT * from product where category = ?;";
+//        PreparedStatement statement = connector.connection.prepareStatement(query);
+//        statement.setString(1, category);
+//        ResultSet result = statement.executeQuery();
+//        List<Product> products = new ArrayList<Product>();
+//        while (result.next()) {
+//            products.add(new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value")));
+//        }
+//        connector.connection.close();
+//        return products;
     }
 
-    Product searchByID(String productID) throws SQLException, ClassNotFoundException {
+    Product searchByID(String productID) {
+        Product product=null;
         DatabaseConnector connector = new DatabaseConnector();
         String query = "SELECT * from product where id = ?;";
-        PreparedStatement statement = connector.connection.prepareStatement(query);
-        statement.setString(1, productID);
-        ResultSet result = statement.executeQuery();
-        Product product=null;
-        while (result.next()) {
-            product= new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value"));
+        try {
+            PreparedStatement statement = connector.connection.prepareStatement(query);
+            statement.setString(1, productID);
+            ResultSet result = statement.executeQuery();
+            //products = new ArrayList<Product>();
+            while (result.next()) {
+                product=new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value"));
+            }
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        connector.connection.close();
         return product;
+
+//        DatabaseConnector connector = new DatabaseConnector();
+//        String query = "SELECT * from product where id = ?;";
+//        PreparedStatement statement = connector.connection.prepareStatement(query);
+//        statement.setString(1, productID);
+//        ResultSet result = statement.executeQuery();
+//        Product product=null;
+//        while (result.next()) {
+//            product= new Product(result.getString("name"), result.getString("category"), result.getString("id"), result.getDouble("price"), result.getDouble("quantity"), result.getDouble("threshold_value"));
+//        }
+//        connector.connection.close();
+//        return product;
     }
 }

@@ -13,37 +13,34 @@ public class DatabaseCredentials {
     private JButton submitButton;
     private JPanel panel2;
     private JPanel panel3;
+    private static JFrame frame;
 
-    String username;
-    String pswd;
+    private static String username;
+    private static String pswd;
 
+    public static String getUsername() {
+        return username;
+    }
+
+    public static String getPswd() {
+        return pswd;
+    }
 
     public DatabaseCredentials() {
-//        usernametextField=new JTextField();
-//        pswdField=new JPasswordField();
-//        submitButton = new JButton();
-//        title = new JLabel();
-//        usernameLabel = new JLabel();
-//        pswdLabel = new JLabel();
-//        JFrame frame = new JFrame("Database credentials");
-//
-//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        frame.setSize(500,500);
-//        frame.add(panel1);
-//        frame.add(panel2);
-//        frame.add(panel3);
-//
-//
-//        panel1.add(title);
-//        panel2.add(usernameLabel);
-
+        username = "";
+        pswd="";
 
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 username = usernametextField.getText();
-                pswd = pswdField.getPassword().toString();
-                System.out.println(username+"  "+pswd);
+                pswd =new String(pswdField.getPassword());
+
+                DatabaseConnector db =new DatabaseConnector();
+                if (db.getStatus()==true){
+                    frame.dispose();
+                    new LoginForm().LogIn();
+                }
 //                DatabaseConnector.getUser(username);
 //                DatabaseConnector.getPswd(pswd);
             }
@@ -52,8 +49,8 @@ public class DatabaseCredentials {
         );
     }
 
-    public static void datebaseCredentialForm() {
-        JFrame frame = new JFrame("DatabaseCredentials");
+    public static void databaseCredentialForm() {
+        frame = new JFrame("DatabaseCredentials");
         frame.setContentPane(new DatabaseCredentials().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

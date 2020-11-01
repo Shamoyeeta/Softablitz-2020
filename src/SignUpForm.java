@@ -22,9 +22,10 @@ public class SignUpForm {
     private JPanel panel2;
     private JPanel panel3;
     private JPanel panel4;
+    private static JFrame frame;
 
     public static void signUp() {
-        JFrame frame = new JFrame("Sign Up Form");
+        frame = new JFrame("Sign Up Form");
         frame.setContentPane(new SignUpForm().Main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -35,7 +36,10 @@ public class SignUpForm {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                nameTextField.setText("");
+                passwordField1.setText("");
+                emailTextField.setText("");
+                usernameTextField.setText("");
             }
         });
 
@@ -43,12 +47,14 @@ public class SignUpForm {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Dashboard.dashboard();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                User currentUser=new Signup().createNewUser(usernameTextField.getText(),nameTextField.getText(),emailTextField.getText(), new String(passwordField1.getPassword()));
+                if (currentUser!=null){
+                    frame.dispose();
+                    Dashboard.dashboard(currentUser);
                 }
-
+                else {
+                    JOptionPane.showMessageDialog(new JFrame(),"Could not sign up, probably due to non-unique username. Try with another username.","Sign Up error",JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -56,6 +62,7 @@ public class SignUpForm {
         logInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+               frame.dispose();
                LoginForm.LogIn();
             }
         });

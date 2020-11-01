@@ -41,45 +41,84 @@ public class ProductLog {
 
 class SearchLogs{
 
-    List<ProductLog> userLogsList(String username) throws SQLException {
-        DatabaseConnector connector = new DatabaseConnector();
-        String query = "SELECT * from product_log where username = ?;";
-        PreparedStatement statement = connector.connection.prepareStatement(query);
-        statement.setString(1, username);
-        ResultSet result = statement.executeQuery();
-        List<ProductLog> products = new ArrayList<ProductLog>();
-        while (result.next()) {
-            products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
+    List<ProductLog> userLogsList(String username) {
+        List<ProductLog> products=new ArrayList<ProductLog>();
+        try {
+            DatabaseConnector connector = new DatabaseConnector();
+            String query = "SELECT * from product_log where username = ?;";
+            PreparedStatement statement = connector.connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet result = statement.executeQuery();
+            //products = new ArrayList<ProductLog>();
+            while (result.next()) {
+                products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
+            }
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        connector.connection.close();
         return products;
+
+//        DatabaseConnector connector = new DatabaseConnector();
+//        String query = "SELECT * from product_log where username = ?;";
+//        PreparedStatement statement = connector.connection.prepareStatement(query);
+//        statement.setString(1, username);
+//        ResultSet result = statement.executeQuery();
+//        List<ProductLog> products = new ArrayList<ProductLog>();
+//        while (result.next()) {
+//            products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
+//        }
+//        connector.connection.close();
+//        return products;
     }
 
-    List<ProductLog> productLogsList(String productId) throws SQLException {
+    List<ProductLog> productLogsList(String productId){
+        List<ProductLog> products=new ArrayList<ProductLog>();
+        try {
         DatabaseConnector connector = new DatabaseConnector();
-        String query = "SELECT * from product_log where product_ID = ?;";
+        String query = "SELECT * from product_log where product_ID = ? ;";
         PreparedStatement statement = connector.connection.prepareStatement(query);
         statement.setString(1, productId);
         ResultSet result = statement.executeQuery();
-        List<ProductLog> products = new ArrayList<ProductLog>();
+        //products = new ArrayList<ProductLog>();
         while (result.next()) {
             products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
         }
         connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return products;
     }
 
-    List<ProductLog> allLogsList() throws SQLException {
-        DatabaseConnector connector = new DatabaseConnector();
-        String query = "SELECT * from product_log;";
-        PreparedStatement statement = connector.connection.prepareStatement(query);
-        ResultSet result = statement.executeQuery();
-        List<ProductLog> products = new ArrayList<ProductLog>();
-        while (result.next()) {
-            products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
+    List<ProductLog> allLogsList(){
+        List<ProductLog> products=new ArrayList<ProductLog>();
+        try {
+            DatabaseConnector connector = new DatabaseConnector();
+            String query = "SELECT * from product_log;";
+            PreparedStatement statement = null;
+            statement = connector.connection.prepareStatement(query);
+            ResultSet result = statement.executeQuery();
+            //products = new ArrayList<ProductLog>();
+            while (result.next()) {
+                products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
+            }
+            connector.connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        connector.connection.close();
         return products;
+//
+//        DatabaseConnector connector = new DatabaseConnector();
+//        String query = "SELECT * from product_log;";
+//        PreparedStatement statement = connector.connection.prepareStatement(query);
+//        ResultSet result = statement.executeQuery();
+//        List<ProductLog> products = new ArrayList<ProductLog>();
+//        while (result.next()) {
+//            products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
+//        }
+//        connector.connection.close();
+//        return products;
     }
 
 

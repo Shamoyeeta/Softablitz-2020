@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ public class Login {
             }
             connector.connection.close();
         } catch (SQLException throwables) {
+            JOptionPane.showMessageDialog(new JFrame(),"Bad Input","Log In Error",JOptionPane.ERROR_MESSAGE);
             throwables.printStackTrace();
         }
         return user;
