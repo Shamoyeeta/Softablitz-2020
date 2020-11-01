@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dashboard {
@@ -17,13 +18,15 @@ public class Dashboard {
     private JPanel panel2;
     private JButton myProfileButton;
     private JButton addNewProductButton;
-    private JButton searchProductButton;
     private JLabel welcomeLabel;
+    private JComboBox searchProductsBy;
+    private JButton searchProductsButton;
     private static JFrame frame;
     String[] columns= {"Product ID","Product Name","Category","Price"};
     private User currentUser;
-
+    private DefaultTableModel model;
     public Dashboard(User currentUser) {
+
 
         this.currentUser=currentUser;
         welcomeLabel.setText("Welcome, "+currentUser.getUsername());
@@ -57,12 +60,7 @@ public class Dashboard {
             }
         });
 
-        searchProductButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO: create UI for search and implement
-            }
-        });
+
         addNewProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,10 +68,41 @@ public class Dashboard {
                 ProductDetails.addProductForm(currentUser);
             }
         });
+        searchProductsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selected_index=searchProductsBy.getSelectedIndex();
+                String choice;
+                List<Product> queryResult=new ArrayList<Product>();
+                switch (selected_index){
+                    case 0:
+                        queryResult= new SearchProducts().searchAll();
+                        break;
+                    case 1:
+                        choice=JOptionPane.showInputDialog("Enter Product Name:");
+                        queryResult=new SearchProducts().searchByName(choice);
+                        break;
+                    case 2:
+                        choice=JOptionPane.showInputDialog("Enter Product Category:");
+                        queryResult=new SearchProducts().searchByCategory(choice);
+                        break;
+                    case 3:
+                        choice=JOptionPane.showInputDialog("Enter Product ID:");
+                        queryResult.add(new SearchProducts().searchByID(choice));
+                        break;
+                    default:
+                        break;
+                }
+                while (model.getRowCount()>0){
+                    model.removeRow(0);
+                }
+                fillTable(model,queryResult);
+            }
+        });
     }
 
     private void createUIComponents() {
-        DefaultTableModel model = new DefaultTableModel(){
+        model = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -89,6 +118,13 @@ public class Dashboard {
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setBorder(new EmptyBorder(20,20,20,20));
         fillTable(model,new SearchProducts().searchAll());
+
+        searchProductsBy=new JComboBox();
+        searchProductsBy.addItem("All");
+        searchProductsBy.addItem("Name");
+        searchProductsBy.addItem("Category");
+        searchProductsBy.addItem("Product ID");
+        searchProductsBy.setSelectedItem("All");
 
     }
 
