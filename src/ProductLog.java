@@ -58,18 +58,6 @@ class SearchLogs{
             throwables.printStackTrace();
         }
         return products;
-
-//        DatabaseConnector connector = new DatabaseConnector();
-//        String query = "SELECT * from product_log where username = ?;";
-//        PreparedStatement statement = connector.connection.prepareStatement(query);
-//        statement.setString(1, username);
-//        ResultSet result = statement.executeQuery();
-//        List<ProductLog> products = new ArrayList<ProductLog>();
-//        while (result.next()) {
-//            products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
-//        }
-//        connector.connection.close();
-//        return products;
     }
 
     List<ProductLog> productLogsList(String productId){
@@ -108,17 +96,6 @@ class SearchLogs{
             throwables.printStackTrace();
         }
         return products;
-//
-//        DatabaseConnector connector = new DatabaseConnector();
-//        String query = "SELECT * from product_log;";
-//        PreparedStatement statement = connector.connection.prepareStatement(query);
-//        ResultSet result = statement.executeQuery();
-//        List<ProductLog> products = new ArrayList<ProductLog>();
-//        while (result.next()) {
-//            products.add(new ProductLog(result.getString("product_ID"), result.getString("username"), result.getString("changes")));
-//        }
-//        connector.connection.close();
-//        return products;
     }
 
 

@@ -87,14 +87,14 @@ public class ProductDetails {
                 Dashboard.dashboard(currentUser);
             }
         });
-        updateButton.addActionListener(new ActionListener() {//TODO: Fix bug in update query
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentUser.updateItem(nameTextField.getText(),categoryTextField.getText(),idTextField.getText(), Double.parseDouble(priceTextField.getText()),Double.parseDouble(quantityTextField.getText()),Double.parseDouble(thresholdTextField.getText()));
-                frame.dispose();
-                Dashboard.dashboard(currentUser);
-            }
-        });
+//        updateButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                currentUser.updateItem(nameTextField.getText(),categoryTextField.getText(),idTextField.getText(), Double.parseDouble(priceTextField.getText()),Double.parseDouble(quantityTextField.getText()),Double.parseDouble(thresholdTextField.getText()));
+//                frame.dispose();
+//                Dashboard.dashboard(currentUser);
+//            }
+//        });
         updateButton.setVisible(false);
     }
 
@@ -104,9 +104,6 @@ public class ProductDetails {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        //submitButton.setVisible(true);
-        //updateButton.setVisible(false);
-        //idTextField.setEditable(true);
     }
 
 
@@ -120,28 +117,29 @@ public class ProductDetails {
         quantityTextField.setText(String.valueOf(product.getQuantity()));
         thresholdTextField.setText(String.valueOf(product.getThreshold()));
 
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                currentUser.addItem(nameTextField.getText(),categoryTextField.getText(),idTextField.getText(), Double.parseDouble(priceTextField.getText()),Double.parseDouble(quantityTextField.getText()),Double.parseDouble(thresholdTextField.getText()));
-                frame.dispose();
-                Dashboard.dashboard(currentUser);
-            }
-        });
+//        submitButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//                currentUser.addItem(nameTextField.getText(),categoryTextField.getText(),idTextField.getText(), Double.parseDouble(priceTextField.getText()),Double.parseDouble(quantityTextField.getText()),Double.parseDouble(thresholdTextField.getText()));
+//                frame.dispose();
+//                Dashboard.dashboard(currentUser);
+//            }
+//        });
         submitButton.setVisible(false);
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nameTextField.setText("");
-                priceTextField.setText("");
-                quantityTextField.setText("0");
-                priceTextField.setText("0");
-                categoryTextField.setText("");
-                thresholdTextField.setText("0");
-                idTextField.setText("");
-            }
-        });
+//        resetButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                nameTextField.setText("");
+//                priceTextField.setText("");
+//                quantityTextField.setText("0");
+//                priceTextField.setText("0");
+//                categoryTextField.setText("");
+//                thresholdTextField.setText("0");
+//                idTextField.setText("");
+//            }
+//        });
+        resetButton.setVisible(false);
 
         priceTextField.addKeyListener(new KeyAdapter() {
             @Override
@@ -174,6 +172,7 @@ public class ProductDetails {
             public void actionPerformed(ActionEvent e) {
                 currentUser.updateItem(nameTextField.getText(),categoryTextField.getText(),idTextField.getText(), Double.parseDouble(priceTextField.getText()),Double.parseDouble(quantityTextField.getText()),Double.parseDouble(thresholdTextField.getText()));
                 frame.dispose();
+                ViewProductLogs.getFrame().dispose();
                 Dashboard.dashboard(currentUser);
             }
         });
@@ -186,8 +185,5 @@ public class ProductDetails {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        //updateButton.setVisible(true);
-        //submitButton.setVisible(false);
-        //idTextField.setEditable(false);
     }
 }

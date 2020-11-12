@@ -1,13 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Dashboard {
     private JPanel main;
@@ -22,12 +18,11 @@ public class Dashboard {
     private JComboBox searchProductsBy;
     private JButton searchProductsButton;
     private static JFrame frame;
-    String[] columns= {"Product ID","Product Name","Category","Price"};
+    String[] columns= {"Product ID","Product Name","Category","Price","Quantity"};
     private User currentUser;
     private DefaultTableModel model;
+
     public Dashboard(User currentUser) {
-
-
         this.currentUser=currentUser;
         welcomeLabel.setText("Welcome, "+currentUser.getUsername());
 
@@ -39,7 +34,6 @@ public class Dashboard {
                     int row = target.getSelectedRow();
                     String ID = (String) table1.getValueAt(row, 0);
                     Product product=new SearchProducts().searchByID(ID);
-                    System.out.println(product.getName());
                     ViewProductLogs.viewProductDetails(product,currentUser);
                 }
             }
@@ -111,6 +105,7 @@ public class Dashboard {
         model.setColumnIdentifiers(columns);
         table1 = new JTable();
         table1.setModel(model);
+        table1.setAutoCreateRowSorter(true);
         //table1.getAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table1.setFillsViewportHeight(true);
         scroll = new JScrollPane(table1);
@@ -125,6 +120,8 @@ public class Dashboard {
         searchProductsBy.addItem("Category");
         searchProductsBy.addItem("Product ID");
         searchProductsBy.setSelectedItem("All");
+
+
 
     }
 
@@ -146,7 +143,7 @@ public class Dashboard {
 
         //List<Product> products = new SearchProducts().searchAll();
         for (Product product : products) {
-            model.addRow(new Object[]{product.getID(),product.getName(),product.getCategory(),product.getPrice()});
+            model.addRow(new Object[]{product.getID(),product.getName(),product.getCategory(),product.getPrice(),product.getQuantity()});
         }
 
 

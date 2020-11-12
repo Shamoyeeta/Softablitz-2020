@@ -76,11 +76,11 @@ class Product {
 
 
     void updateLog(String username, String change) {
-        DatabaseConnector connector=new DatabaseConnector();
-        String sql= "INSERT into product_log(product_ID,username,changes) values(?,?,?);";
-        PreparedStatement statement= null;
+
+        String sql= "INSERT into product_log(product_ID , username , changes) values( ? , ? , ? );";
         try {
-            statement = connector.connection.prepareStatement(sql);
+            DatabaseConnector connector=new DatabaseConnector();
+            PreparedStatement statement = connector.connection.prepareStatement(sql);
             statement.setString(1,this.ID);
             statement.setString(2,username);
             statement.setString(3,change);

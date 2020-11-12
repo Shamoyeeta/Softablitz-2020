@@ -24,13 +24,16 @@ public class ViewProductLogs {
     private JScrollPane scroll;
     private static JFrame frame;
     String[] columns={"User","Changes"};
-    private User currentUser;
-    private Product product;
+    //private User currentUser;
+    //private Product product;
+    DefaultTableModel model;
 
-    public ViewProductLogs(Product product,User user) {
+    public static JFrame getFrame() {
+        return frame;
+    }
+
+    public ViewProductLogs(Product product, User user) {
         usernameLabel.setText("Welcome, "+user.getUsername());
-        this.currentUser=user;
-        this.product=product;
 
         IDtextField.setText(product.getID());
         nameTextField.setText(product.getName());
@@ -51,44 +54,41 @@ public class ViewProductLogs {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                Dashboard.dashboard(currentUser);
+                Dashboard.dashboard(user);
             }
         });
 
         deleteProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentUser.removeItem(product);
+                user.removeItem(product);
                 frame.dispose();
-                Dashboard.dashboard(currentUser);
+                Dashboard.dashboard(user);
             }
         });
 
         updateProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProductDetails.updateProductForm(currentUser,product);
-                //currentUser.updateItem(nameTextField.getText(),categoryTextField.getText(), IDtextField.getText(),Double.parseDouble(priceTextField.getText()),Double.parseDouble(quantityTextField.getText()),Double.parseDouble(thresholdTextField.getText()));
+                ProductDetails.updateProductForm(user,product);
             }
         });
+        fillTable(model,product);
     }
 
     private void createUIComponents() {
-        DefaultTableModel model = new DefaultTableModel();
+        model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         table1 = new JTable();
         table1.setModel(model);
-        //table1.getAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table1.setFillsViewportHeight(true);
         scroll = new JScrollPane(table1);
-        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);//JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.setBorder(new EmptyBorder(20,20,20,20));
-        //fillTable(model);
-
     }
 
-    private void fillTable(DefaultTableModel model) { //TODO: fix bug in fillTable for product logs
+    private void fillTable(DefaultTableModel model,Product product) {
         List<ProductLog> logs=new SearchLogs().productLogsList(product.getID());
         for (ProductLog log:logs) {
             model.addRow(new Object[]{log.getUsername(),log.getChanges()});

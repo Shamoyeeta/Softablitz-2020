@@ -3,6 +3,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
+
+
 class User {
     private String name, username, email;
     private String password;
@@ -68,6 +70,7 @@ class User {
         if (!initialState.checkThresholdValue(quantity,threshold)){
             return initialState;
         }
+
         DatabaseConnector connector = new DatabaseConnector();
         String query = "UPDATE product SET name = ?, category = ? , price = ? , quantity = ? , threshold_value = ?  WHERE id = ?";
         PreparedStatement statement = null;
@@ -83,12 +86,12 @@ class User {
             int i = statement.executeUpdate();
             connector.connection.close();
             if (i > 0) {
-                //successful execution
-                product.updateLog(this.username, "Changed product specifications.");
                 product = new SearchProducts().searchByID(ID);
+                product.updateLog(username,"Product updated");
             } else {
                 //updation unsuccessful updation,show alert
                 //function returns null
+                JOptionPane.showMessageDialog(new JFrame(),"couldn't update","Error",JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
